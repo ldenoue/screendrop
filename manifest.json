@@ -1,0 +1,56 @@
+{
+  "name": "ScreenDrop",
+  "author": "Laurent Denoue",
+  "manifest_version": 2,
+  "version": "0.1.0",
+  "description": "Quickly record a video of your screen or window and paste in your current tab",
+  "background": {"scripts": ["sd-background.js"]},
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "exclude_matches": ["*://*.slack.com/*","*://web.whatsapp.com/*","*://www.google.com/bookmarks/*","*://accounts.google.com/*"],
+      "js": ["sd-content-script.js"],
+      "all_frames": true
+    }
+  ],
+  "permissions": ["https://www.google.com/bookmarks/*","storage","contextMenus","tabs","bookmarks"],
+  "browser_action": {
+		"default_title": "ScreenDrop",
+  	"default_icon": "sd_on_128.png",
+    "default_popup": "options.html"
+	},
+	"icons": {
+   "16": "icon16.png",
+   "32": "icon32.png"
+  },
+  "commands": {
+    "sd-yellow": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Y",
+        "mac": "Alt+Shift+Y"
+      },
+      "description": "Yellow"
+    },
+    "sd-red": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+R",
+        "mac": "Alt+Shift+R"
+      },
+      "description": "Red"
+    },
+    "sd-blue": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+B",
+        "mac": "Alt+Shift+B"
+      },
+      "description": "Blue"
+    },
+    "sd-green": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+G",
+        "mac": "Alt+Shift+G"
+      },
+      "description": "Green"
+    }
+  }
+}
