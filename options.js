@@ -1,60 +1,112 @@
-function loadOptions() {
-  chrome.storage.sync.get({
-    /*handlePDF: false,*/
-    saveLocally: false,
-    saveChromeBookmarks: true
-  }, function(items) {
-    //document.getElementById('handlePDF').checked = items.handlePDF;
-    document.getElementById('saveLocally').checked = items.saveLocally;
-    document.getElementById('saveChromeBookmarks').checked = items.saveChromeBookmarks;
-  });
+let startBtn = document.getElementById('startBtn');
+let dropBtn = document.getElementById('dropBtn');
+let clearBtn = document.getElementById('clearBtn');
+let dropInfo = document.getElementById('dropInfo');
+let sdVideo = document.getElementById('sdVideo');
+let uri = null;
+let stream = null;
+let mediaRecorder = null;
+let file = null;
+
+clearBtn.addEventListener('click', (e) => {
+  chrome.storage.local.set({lastScreenDrop:''});
+  sdVideo.src = null;  
+})
+
+chrome.storage.local.get('lastScreenDrop',(e) => {
+  if (e.lastScreenDrop)
+    uri = e.lastScreenDrop;
+    sdVideo.src = e.lastScreenDrop;
+});
+
+async function startScreenDrop(evt) {
+  evt.preventDefault();
+  evt.stopPropagation();
+  if (mediaRecorder) {
+    stream.getTracks().forEach((t) => t.stop());
+    mediaRecorder.stop();
+    return;
+  }
+  startBtn.textContent = 'stop';
+  try {
+    stream = await navigator.mediaDevices.getDisplayMedia({video:true,audio:true});
+  } catch (epermission) {
+    startBtn.textContent = 'start';
+    return;
+  }
+  sdVideo.srcObject = stream;
+  let chunks = [];
+  mediaRecorder = new MediaRecorder(stream,{mimeType:'video/webm;codecs=vp8,opus'});
+  mediaRecorder.ondataavailable = (e) => {
+    chunks.push(e.data);
+  }
+  mediaRecorder.onstop = function(e) {
+    startBtn.textContent = 'start'
+    mediaRecorder = null;
+    blob = new Blob(chunks, { 'type' : 'video/webm' });
+    file = new File([blob], "screendrop.webm", { type: "video/webm" });
+    chunks = [];
+    //console.log('stopped recording',blob.size,file)
+    sdVideo.srcObject = null; // important otherwise Chrome does not show the new src
+    sdVideo.src = URL.createObjectURL(blob);
+    let fr = new FileReader();
+    fr.onload = (e) => {
+      uri = fr.result;
+      chrome.storage.local.set({lastScreenDrop:uri});
+      //dropScreenDrop();
+    }
+    fr.readAsDataURL(blob)
+    //URI = sdVideo.src;
+  };
+  mediaRecorder.start(1000);
+  /*chrome.desktopCapture.chooseDesktopMedia(
+    ['screen'],
+    null,
+    async (id, options) => {
+      console.log(id, options);
+      stream = await navigator.mediaDevices.getUserMedia({
+        video: {
+          mandatory: {
+            chromeMediaSource: 'screen',
+            chromeMediaSourceId: id,
+          },
+        },
+      });
+      sdVideo.srcObject = stream;
+      // do stuff with MediaStream
+      r = new MediaRecorder(stream);
+      r.start();
+      r.ondataavailable = (e) => console.log(fr.readAsDataURL(e.data));
+      setTimeout(() => {
+        r.stop();
+        stream.getTracks().forEach((t) => t.stop());
+      }, 10000);
+    }
+  );*/
 }
 
-function saveOptions() {
-  //var handlePDF = document.getElementById("handlePDF").checked;
-  var saveLocally = document.getElementById("saveLocally").checked;
-  var saveChromeBookmarks = document.getElementById("saveChromeBookmarks").checked;
-  chrome.storage.sync.set({
-    /*handlePDF: handlePDF,*/
-    saveLocally:saveLocally,
-    saveChromeBookmarks:saveChromeBookmarks
-  }, function() {
+function dropScreenDrop() {
+  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+    var activeTab = tabs[0];
+    console.log('sending screendrop',activeTab)
+    chrome.tabs.sendMessage(activeTab.id, { url: uri });
     //window.close();
   });
 }
 
-function restoreOptions() {
-  chrome.storage.sync.set({
-    /*handlePDF: false,*/
-    saveLocally: false,
-    saveChromeBookmarks: true
-  }, function() {
-    //document.getElementById("handlePDF").checked = false;
-    document.getElementById('saveLocally').checked = false;
-    document.getElementById('saveChromeBookmarks').checked = true;
-  });
-}
-
-/*function donateOptions() {
-    chrome.tabs.create({ url: 'https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=R9JRASMAABUUE&item_name=Yawas+Web+and+PDF+Highlighter&currency_code=USD&source=yawasextension' });
-}*/
-
-document.addEventListener('DOMContentLoaded', loadOptions);
-//document.querySelector('#save').addEventListener('click', saveOptions);
-document.querySelector('#restore').addEventListener('click', restoreOptions);
-//document.querySelector('#donate').addEventListener('click', donateOptions);
-
-//let handlePDFElem = document.getElementById("handlePDF");
-//handlePDFElem.addEventListener('change',saveOptions);
-let saveLocallyElem = document.getElementById("saveLocally");
-saveLocallyElem.addEventListener('change',saveOptions);
-let saveChromeBookmarksElem = document.getElementById("saveChromeBookmarks");
-saveChromeBookmarksElem.addEventListener('change',saveOptions);
-
-let importButton = document.getElementById('importChromeBookmarks');
-importButton.addEventListener('click', () => chrome.runtime.sendMessage({ msg: "startImportFunc" }));
+startBtn.addEventListener('click', startScreenDrop);
+if (dropBtn)
+  dropBtn.addEventListener('click', dropScreenDrop);
 
 chrome.runtime.onMessage.addListener(function requestCallback(request, sender, sendResponse) {
-  if (request.msg === 'importMessage')
-    importButton.textContent = request.n + ' imported';
+  if (request.msg)
+    dropInfo.textContent = request.msg;
 });
+
+
+/*var popupWindow = window.open(
+  chrome.extension.getURL("popup.html"),
+  "exampleName",
+  "width=400,height=400"
+);
+setTimeout(() => window.close(),100);*/

@@ -28,7 +28,7 @@ body {
 }
 h1{font-size:160%}
 button{
-  margin:8px;
+  margin:8px 0px;
   border:0;
   outline:none;
   font-size:14px;
@@ -49,22 +49,38 @@ background-color:rgb(255, 196, 57);
 border-radius:32px;
 padding:8px 16px;
 }
+#sdVideo{
+  width:200px;
+  aspect-ratio: 16/9;
+}
+.link{
+  margin:0;
+  background-color: transparent;
+  color:white;
+  border-radius: 0;
+}
+p{
+  font-size:100%;
+  margin:8px;
+}
+.link:hover{opacity:0.6}
 .adonate:hover{color:white;}
 </style>
 </head>
 <body>
-	<h1>ScreenDrop settings</h1>
-	<!--input type="checkbox" id="handlePDF"/> Use Yawas to view PDF documents
-	<br-->
-	<!--input type="checkbox" id="saveGoogle"/>Save highlights to Google Bookmarks<br/-->
-  <h3>Saving options</h3>
-  <input type="radio" name="saveoption" id="saveChromeBookmarks"/> chrome.bookmark API (unlimited)<br>
-	<input type="radio" name="saveoption" id="saveLocally"/> chrome.storage.sync (max 512 entries)<br>
-	<!--button id="save">Save and close</button-->
-	<button id="restore" title="Restore default options">Restore</button>
-	<br><br>
-  <button id="importChromeBookmarks" title="Import Google Bookmarks to Chrome Bookmarks">Import</button>
+	<!--h1>ScreenDrop</h1-->
+  <div>
+    <button id="startBtn" title="Start Recording">Record new</button>
+    <button id="dropBtn" title="Drop">Drop it!</button>
+    <div id="dropInfo"></div>
+  </div>
+  <video id='sdVideo' autoplay muted controls playsinline></video>
+  <div>
+    <button class="link" id="clearBtn" title="Clear last recording">Clear video</button>
+  </div>
 	<br>
+  <button class="link">made with love by @ldenoue</button>
+
 </body>
 <script src="options.js"></script>
 </html>

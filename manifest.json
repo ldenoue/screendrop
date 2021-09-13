@@ -5,15 +5,20 @@
   "version": "0.1.0",
   "description": "Quickly record a video of your screen or window and paste in your current tab",
   "background": {"scripts": ["sd-background.js"]},
+  "web_accessible_resources": [
+    "*.webm",
+    "script.js"
+  ],
   "content_scripts": [
     {
+      "run_at": "document_start",
       "matches": ["http://*/*", "https://*/*"],
-      "exclude_matches": ["*://*.slack.com/*","*://web.whatsapp.com/*","*://www.google.com/bookmarks/*","*://accounts.google.com/*"],
+      "exclude_matches": ["*://www.google.com/bookmarks/*","*://accounts.google.com/*"],
       "js": ["sd-content-script.js"],
-      "all_frames": true
+      "all_frames": false
     }
   ],
-  "permissions": ["https://www.google.com/bookmarks/*","storage","contextMenus","tabs","bookmarks"],
+  "permissions": ["storage","contextMenus","tabs","bookmarks", "tabCapture", "desktopCapture"],
   "browser_action": {
 		"default_title": "ScreenDrop",
   	"default_icon": "sd_on_128.png",
