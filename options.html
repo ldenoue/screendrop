@@ -4,83 +4,69 @@
 <title>ScreenDrop options</title>
 <style>
 :root{
---titlefont:'avenir next',avenir,Lato,'GillSans',-apple-system,Helvetica,Arial,sans-serif;
---font:'avenir next',avenir,-apple-system,Helvetica,Arial,sans-serif;
---text:white;
---bg:#190B33;
---bg-blue:#3F75F0/*#9D6CFF*/;
---bg-green:#9EDD09;
---bg-red:#920028;
+--text:#444;
+--bg:white;
 --body-font-size:13pt;
+--font:sans-serif;
 }
 
-*{
-  font-family: var(--font);
-  -webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+html{
+  width:360px;
 }
-html{width:420px;}
 body {
-  margin:16px;
-  overflow-x:hidden;
-  font-size:var(--body-font-size);
-	background-color:var(--bg);color:var(--text);
+  padding: 0px;
+  margin: 0px;
 }
-h1{font-size:160%}
 button{
-  margin:8px 0px;
+  margin:8px 8px;
   border:0;
   outline:none;
   font-size:14px;
   padding:8px 16px;
-  font-weight:bold;
-  background-color:#8a8;
   border-radius:32px;
   cursor:pointer;
+  display: block;
 }
-button:hover{color:white}
-a{color:white}
+button:hover{opacity:0.5;}
 
-.adonate{
-font-size:14px;
-font-weight:bold;
-color:black;
-background-color:rgb(255, 196, 57);
-border-radius:32px;
-padding:8px 16px;
-}
 #sdVideo{
-  width:200px;
-  aspect-ratio: 16/9;
+  width:320px;
+  height:160px;
+  background-color: black;
 }
-.link{
-  margin:0;
-  background-color: transparent;
-  color:white;
-  border-radius: 0;
+
+.container{
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-p{
-  font-size:100%;
-  margin:8px;
+.row{
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
 }
-.link:hover{opacity:0.6}
-.adonate:hover{color:white;}
 </style>
 </head>
 <body>
-	<!--h1>ScreenDrop</h1-->
-  <div>
-    <button id="startBtn" title="Start Recording">Record new</button>
-    <button id="dropBtn" title="Drop">Drop it!</button>
-    <div id="dropInfo"></div>
+  <div class="container">
+    <h3>ScreenDrop</h3>
+    <div class='row'>
+      <p id="dropInfo">click <b>Record</b> to start</p>
+    </div>
+    <div class='row'>
+      <video id='sdVideo' autoplay muted controls playsinline></video>
+    </div>
+    <div class='row'>
+      <button id="startBtn" title="Start Recording">Record</button>
+      <button id="dropBtn" title="Drop">Drop</button>
+      <button id="clearBtn" title="Clear last recording">Clear</button>
+      <button id="downloadBtn" title="Clear last recording">Download</button>
+    </div>
+    <div class='row'>
+      <p>Fork on <a href="https://github.com/ldenoue/screendrop" id="github">GitHub</a></p>
+    </div>
   </div>
-  <video id='sdVideo' autoplay muted controls playsinline></video>
-  <div>
-    <button class="link" id="clearBtn" title="Clear last recording">Clear video</button>
-  </div>
-	<br>
-  <button class="link">made with love by @ldenoue</button>
-
 </body>
 <script src="options.js"></script>
 </html>
