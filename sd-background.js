@@ -62,7 +62,7 @@ async function startScreenDrop() {
     chunks.push(e.data);
   }
   mediaRecorder.onstop = function(e) {
-    chrome.browserAction.setIcon({path: 'off.png'});
+    chrome.browserAction.setIcon({path: 'icons/32.png'});
     mediaRecorder = null;
     let blob = new Blob(chunks, { 'type' : 'video/webm' });
     chunks = [];
@@ -74,5 +74,5 @@ async function startScreenDrop() {
     fr.readAsDataURL(blob)
   };
   mediaRecorder.start(1000);
-  chrome.browserAction.setIcon({path: 'on.png'});
+  chrome.browserAction.setIcon({path: 'icons/32-recording.png'});
 }

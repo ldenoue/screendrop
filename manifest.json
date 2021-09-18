@@ -2,17 +2,18 @@
   "name": "ScreenDrop",
   "author": "Laurent Denoue",
   "manifest_version": 2,
-  "version": "0.1.2",
-  "description": "Quickly record a video of your screen or window, drag & drop anywhere",
-  "background": {"scripts": ["sd-background.js"]},
+  "version": "1.0.0",
+  "description": "Quickly record a video of your screen or window with your voice, drag & drop anywhere",
+  "background": {"scripts": ["sd-background.js"], "persistent": false},
   "permissions": ["downloads", "storage", "tabs"],
   "browser_action": {
 		"default_title": "ScreenDrop",
-  	"default_icon": "off.png"
+  	"default_icon": "icons/32.png"
 	},
   "options_page": "welcome.html",
-	"icons": {
-   "16": "off-16.png",
-   "32": "off.png"
+  "icons": {
+    "16": "icons/16.png",
+    "128": "icons/128.png",
+    "48": "icons/48.png"
   }
 }
