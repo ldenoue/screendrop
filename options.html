@@ -34,7 +34,12 @@ button:hover{opacity:0.5;}
   height:160px;
   background-color: black;
 }
-
+#dropInfo{
+  color:red;font-weight: bold;
+  transition: opacity 0.3s ease-in-out;
+  opacity: 1;
+  display:block;
+}
 .container{
   display:flex;
   flex-direction: column;
@@ -52,16 +57,18 @@ button:hover{opacity:0.5;}
   <div class="container">
     <h3>ScreenDrop</h3>
     <div class='row'>
-      <p id="dropInfo">click <b>Record</b> to start</p>
+      <button id="startBtn" title="New Recording">Record</button>
     </div>
     <div class='row'>
       <video id='sdVideo' autoplay controls playsinline></video>
     </div>
-    <div class='row'>
-      <button id="startBtn" title="Start Recording">Record</button>
+    <div id='buttons' class='row'>
       <button id="dropBtn" title="Drop">Drop</button>
       <button id="clearBtn" title="Clear last recording">Clear</button>
       <button id="downloadBtn" title="Clear last recording">Download</button>
+    </div>
+    <div id='dropInfo' class='row'>
+      <p></p>
     </div>
     <div class='row'>
       <p>Fork on <a href="https://github.com/ldenoue/screendrop" id="github">GitHub</a></p>

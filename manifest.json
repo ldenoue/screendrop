@@ -18,14 +18,14 @@
       "all_frames": false
     }
   ],
-  "permissions": ["storage", "tabs", "tabCapture", "desktopCapture"],
+  "permissions": ["notifications", "storage", "tabs", "tabCapture", "desktopCapture"],
   "browser_action": {
 		"default_title": "ScreenDrop",
-  	"default_icon": "icon32.png",
+  	"default_icon": "off.png",
     "default_popup": "options.html"
 	},
 	"icons": {
-   "16": "icon16.png",
-   "32": "icon32.png"
+   "16": "off.png",
+   "32": "off.png"
   }
 }
