@@ -1,3 +1,20 @@
+chrome.runtime.onInstalled.addListener((details) => {
+  if (details.reason.search(/install/g) === -1) {
+      return
+  }
+  chrome.tabs.create({
+      url: chrome.extension.getURL("welcome.html"),
+      active: true
+  })
+})
+
+let audioSources = null;
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  console.log(request);
+  audioSources = request.devices
+  console.log(audioSources)
+});
+
 chrome.browserAction.onClicked.addListener(function(tab) {
   startScreenDrop(null);
 });
@@ -20,12 +37,12 @@ async function startScreenDrop() {
     mediaRecorder.stop();
     return;
   }
-  /*try {
+  try {
     audioStream = await navigator.mediaDevices.getUserMedia({audio:true});
     audioTrack = audioStream.getAudioTracks()[0];
   } catch (eaudiopermission) {
     console.log('no audio',eaudiopermission);
-  }*/
+  }
 
   try {
     stream = await navigator.mediaDevices.getDisplayMedia({video: true, audio: true});
@@ -58,28 +75,4 @@ async function startScreenDrop() {
   };
   mediaRecorder.start(1000);
   chrome.browserAction.setIcon({path: 'on.png'});
-  /*chrome.desktopCapture.chooseDesktopMedia(
-    ['screen'],
-    null,
-    async (id, options) => {
-      console.log(id, options);
-      stream = await navigator.mediaDevices.getUserMedia({
-        video: {
-          mandatory: {
-            chromeMediaSource: 'screen',
-            chromeMediaSourceId: id,
-          },
-        },
-      });
-      sdVideo.srcObject = stream;
-      // do stuff with MediaStream
-      r = new MediaRecorder(stream);
-      r.start();
-      r.ondataavailable = (e) => console.log(fr.readAsDataURL(e.data));
-      setTimeout(() => {
-        r.stop();
-        stream.getTracks().forEach((t) => t.stop());
-      }, 10000);
-    }
-  );*/
 }

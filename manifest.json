@@ -5,11 +5,12 @@
   "version": "0.1.2",
   "description": "Quickly record a video of your screen or window, drag & drop anywhere",
   "background": {"scripts": ["sd-background.js"]},
-  "permissions": ["downloads", "storage", "tabs", "tabCapture", "desktopCapture"],
+  "permissions": ["downloads", "storage", "tabs"],
   "browser_action": {
 		"default_title": "ScreenDrop",
   	"default_icon": "off.png"
 	},
+  "options_page": "welcome.html",
 	"icons": {
    "16": "off-16.png",
    "32": "off.png"
