@@ -12,6 +12,7 @@ let emptyVideo = chrome.runtime.getURL('screendrop.webm');
 let recording = false;
 
 clearBtn.addEventListener('click', (e) => {
+  chrome.storage.local.set({recoding:false});
   chrome.storage.local.set({lastScreenDrop:''});
   sdVideo.srcObject = null;
   sdVideo.src = emptyVideo;  
