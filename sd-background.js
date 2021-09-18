@@ -8,13 +8,6 @@ chrome.runtime.onInstalled.addListener((details) => {
   })
 })
 
-let audioSources = null;
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  console.log(request);
-  audioSources = request.devices
-  console.log(audioSources)
-});
-
 chrome.browserAction.onClicked.addListener(function(tab) {
   startScreenDrop(null);
 });
@@ -23,11 +16,14 @@ let stream = null;
 let mediaRecorder = null;
 let audioStream = null;
 let audioTrack = null;
+let lastDownloadId = null;
 
 function downloadScreenDrop(url) {
   chrome.downloads.download({
     url: url,
     filename: "screendrop" + Date.now() + ".webm"
+  }, (downloadId) => {
+    lastDownloadId = downloadId;
   });
 }
 
@@ -74,5 +70,11 @@ async function startScreenDrop() {
     fr.readAsDataURL(blob)
   };
   mediaRecorder.start(1000);
+  if (lastDownloadId) {
+    chrome.downloads.removeFile(lastDownloadId, () => {
+      chrome.downloads.erase({id:lastDownloadId});
+      lastDownloadId = null;
+    });
+  }
   chrome.browserAction.setIcon({path: 'icons/32-recording.png'});
 }
