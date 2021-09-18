@@ -16,14 +16,14 @@ let stream = null;
 let mediaRecorder = null;
 let audioStream = null;
 let audioTrack = null;
-let lastDownloadId = null;
 
 function downloadScreenDrop(url) {
   chrome.downloads.download({
     url: url,
-    filename: "screendrop" + Date.now() + ".webm"
+    //filename: "screendrop" + Date.now() + ".webm"
+    filename: 'screendrop.webm'
   }, (downloadId) => {
-    lastDownloadId = downloadId;
+    chrome.storage.local.set({downloadId});
   });
 }
 
@@ -70,11 +70,11 @@ async function startScreenDrop() {
     fr.readAsDataURL(blob)
   };
   mediaRecorder.start(1000);
-  if (lastDownloadId) {
-    chrome.downloads.removeFile(lastDownloadId, () => {
-      chrome.downloads.erase({id:lastDownloadId});
-      lastDownloadId = null;
+  chrome.storage.local.get('downloadId',(res) => {
+    if (res.downloadId)
+    chrome.downloads.removeFile(res.downloadId, () => {
+      chrome.downloads.erase({id: res.downloadId});
     });
-  }
+  });
   chrome.browserAction.setIcon({path: 'icons/32-recording.png'});
 }
