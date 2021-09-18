@@ -2,23 +2,10 @@
   "name": "ScreenDrop",
   "author": "Laurent Denoue",
   "manifest_version": 2,
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Quickly record a video of your screen or window, drag & drop anywhere",
   "background": {"scripts": ["sd-background.js"]},
-  "web_accessible_resources": [
-    "*.webm",
-    "script.js"
-  ],
-  "content_scripts": [
-    {
-      "run_at": "document_start",
-      "matches": ["http://*/*", "https://*/*"],
-      "exclude_matches": ["*://accounts.google.com/*"],
-      "js": ["sd-content-script.js"],
-      "all_frames": false
-    }
-  ],
-  "permissions": ["storage", "tabs", "tabCapture", "desktopCapture"],
+  "permissions": ["downloads", "storage", "tabs", "tabCapture", "desktopCapture"],
   "browser_action": {
 		"default_title": "ScreenDrop",
   	"default_icon": "off.png"

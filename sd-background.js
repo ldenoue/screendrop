@@ -8,10 +8,9 @@ let audioStream = null;
 let audioTrack = null;
 
 function downloadScreenDrop(url) {
-  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-    for (let tab of tabs) {
-      chrome.tabs.sendMessage(tab.id, {download:url});
-    }
+  chrome.downloads.download({
+    url: url,
+    filename: "screendrop" + Date.now() + ".webm"
   });
 }
 
@@ -21,12 +20,12 @@ async function startScreenDrop() {
     mediaRecorder.stop();
     return;
   }
-  try {
+  /*try {
     audioStream = await navigator.mediaDevices.getUserMedia({audio:true});
     audioTrack = audioStream.getAudioTracks()[0];
   } catch (eaudiopermission) {
     console.log('no audio',eaudiopermission);
-  }
+  }*/
 
   try {
     stream = await navigator.mediaDevices.getDisplayMedia({video: true, audio: true});
