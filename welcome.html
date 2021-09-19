@@ -1,37 +1,40 @@
-<html>
-  <style>
-    body{font-size: 16px;font-family: arial, sans-serif;color:#444}
-    button{font-size: 16px;font-family: sans-serif;cursor:pointer;outline:none;padding:8px;background-color: deepskyblue;border:0;border-radius: 16px;}
-    button:hover{opacity: 0.8;}
-    .video{
-      width:200px;
-      height:auto;
-      cursor: pointer;
-    }
-    .file{
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      border-bottom: 1px solid lightgray;
-    }
-    .details{
-      margin:8px;
-      line-height: 1.6;
-    }
-    h1{
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-    }
-  </style>
-  <body>
-    <h1><img height='64px' src='icons/off.png'>ScreenDrop</h1>
-    <p>In order to record your microphone with your screen <button id='mic'>enable microphone access</button> <span id='result'></span></p>
-    <label><input id="keep" type="checkbox"> Keep all my recordings</label>
-    <p style='font-size: 80%;'>by default ScreenDrop only keeps the last file so you don't have a huge list of files listed below your browser whenever you generate a new ScreenDrop</p>
-    <h4>My recordings</h4>
-    <div id='myfiles'>
-    </div>
-  <script src='welcome.js'></script>
-  </body>
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+body{font-size: 16px;font-family: arial, sans-serif;color:#444}
+button{font-size: 16px;font-family: sans-serif;cursor:pointer;outline:none;padding:8px;background-color: deepskyblue;border:0;border-radius: 16px;}
+button:hover{opacity: 0.8;}
+.video{
+  width:200px;
+  height:auto;
+  cursor: pointer;
+}
+.file{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-bottom: 1px solid lightgray;
+}
+.details{
+  margin:8px;
+  line-height: 1.6;
+}
+h1{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+</style>
+<body>
+<h1><img height='64px' src='icons/off.png'>ScreenDrop</h1>
+<p>In order to record your microphone with your screen <button id='mic'>enable microphone access</button> <span id='result'></span></p>
+<label><input id="keep" type="checkbox"> Keep all my recordings</label>
+<p style='font-size: 80%;'>by default ScreenDrop only keeps the last file so you don't have a huge list of files listed below your browser whenever you generate a new ScreenDrop</p>
+<h4>My recordings</h4>
+<div id='myfiles'>
+</div>
+<script src='welcome.js'></script>
+</body>
 </html>

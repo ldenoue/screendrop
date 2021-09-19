@@ -42,7 +42,7 @@ async function startScreenDrop() {
   }
 
   try {
-    stream = await navigator.mediaDevices.getDisplayMedia({video: true/*, audio: true*/});
+    stream = await navigator.mediaDevices.getDisplayMedia({/*video: true*//*, audio: true*/});
   } catch (epermission) {
     console.log('cancelled')
     return;
