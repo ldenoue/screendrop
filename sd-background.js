@@ -2,6 +2,7 @@ chrome.runtime.onInstalled.addListener((details) => {
   if (details.reason.search(/install/g) === -1) {
       return
   }
+  chrome.storage.local.set({keep:false});
   chrome.tabs.create({
       url: chrome.extension.getURL("welcome.html"),
       active: true
@@ -14,14 +15,15 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 
 let stream = null;
 let mediaRecorder = null;
-let audioStream = null;
+//let audioStream = null;
 let audioTrack = null;
 
 function downloadScreenDrop(url) {
   chrome.downloads.download({
     url: url,
     //filename: "screendrop" + Date.now() + ".webm"
-    filename: 'screendrop.webm'
+    //filename: '🎥 screendrop.webm'
+    filename: 'drag&drop me.webm'
   }, (downloadId) => {
     chrome.storage.local.set({downloadId});
   });
@@ -34,14 +36,14 @@ async function startScreenDrop() {
     return;
   }
   try {
-    audioStream = await navigator.mediaDevices.getUserMedia({audio:true});
+    let audioStream = await navigator.mediaDevices.getUserMedia({audio:true});
     audioTrack = audioStream.getAudioTracks()[0];
   } catch (eaudiopermission) {
     console.log('no audio',eaudiopermission);
   }
 
   try {
-    stream = await navigator.mediaDevices.getDisplayMedia({video: true, audio: true});
+    stream = await navigator.mediaDevices.getDisplayMedia({video: true/*, audio: true*/});
   } catch (epermission) {
     console.log('cancelled')
     return;
@@ -70,11 +72,14 @@ async function startScreenDrop() {
     fr.readAsDataURL(blob)
   };
   mediaRecorder.start(1000);
-  chrome.storage.local.get('downloadId',(res) => {
-    if (res.downloadId)
-    chrome.downloads.removeFile(res.downloadId, () => {
-      chrome.downloads.erase({id: res.downloadId});
-    });
+  chrome.storage.local.get(['downloadId','keep'],(res) => {
+    if (res.downloadId) {
+      if (!res.keep) {
+        chrome.downloads.removeFile(res.downloadId, () => {
+          chrome.downloads.erase({id: res.downloadId});
+        });
+      }
+    }
   });
   chrome.browserAction.setIcon({path: 'icons/32-recording.png'});
 }
