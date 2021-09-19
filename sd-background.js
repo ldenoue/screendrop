@@ -1,4 +1,5 @@
 chrome.runtime.onInstalled.addListener((details) => {
+  //console.log(details);
   if (details.reason.search(/install/g) === -1) {
       return
   }

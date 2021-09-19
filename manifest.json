@@ -4,13 +4,16 @@
   "manifest_version": 2,
   "version": "1.0.1",
   "description": "Quickly record a video of your screen or window with your voice, drag & drop anywhere",
-  "background": {"scripts": ["sd-background.js"], "persistent": false},
-  "permissions": ["downloads", "storage", "tabs", "tabCapture"],
+  "background": {"scripts": ["sd-background.js"] },
+  "permissions": ["downloads", "storage", "tabs"],
   "browser_action": {
 		"default_title": "ScreenDrop",
   	"default_icon": "icons/off.png"
 	},
-  "options_page": "welcome.html",
+  "options_ui": {
+    "page": "welcome.html",
+    "browser_style": true
+  },
   "icons": {
     "128": "icons/off.png"
   }
