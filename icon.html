@@ -1,0 +1,47 @@
+<html>
+<head>
+<style>
+  body{font-family:monospace;box-sizing:border-box;background-color:transparent;}
+  .container{
+    width:112px;
+    height:112px;
+    overflow:hidden;
+    padding:8px;
+    background-color:transparent;
+  }
+  #icon{
+    width:100%;
+    height:100%;
+    background-color:#0087f6;
+    display:flex;
+    flex-direction:row;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow:0 0 10px #444;
+  }
+  #circle{
+    width:50%;
+    height:50%;
+    border-radius:50%;
+    background-color:white;
+    box-shadow:inset 0 0 2px black;
+  }
+  .rec{background-color:red!important;box-shadow:inset 0 0 2px white!important;}
+  .reco{background-color:pink!important;}
+</style>
+</head>
+<body>
+  <p>To export each icon, use Safari: inpect element, right click and take screenshot</p>
+  <p>They should each be 128x128 pixels</p>
+  <div class='container'>
+    <div id='icon'>
+      <div id='circle'></div>
+    </div>
+  </div>
+  <div class='container'>
+    <div id='icon' class='reco'>
+      <div id='circle' class='rec'></div>
+    </div>
+  </div>
+</body>

@@ -21,9 +21,7 @@ let audioTrack = null;
 function downloadScreenDrop(url) {
   chrome.downloads.download({
     url: url,
-    //filename: "screendrop" + Date.now() + ".webm"
-    //filename: '🎥 screendrop.webm'
-    filename: 'drag&drop me.webm'
+    filename: 'screendrop.webm'
   }, (downloadId) => {
     chrome.storage.local.set({downloadId});
   });
@@ -60,7 +58,7 @@ async function startScreenDrop() {
     chunks.push(e.data);
   }
   mediaRecorder.onstop = function(e) {
-    chrome.browserAction.setIcon({path: 'icons/32.png'});
+    chrome.browserAction.setIcon({path: 'icons/off.png'});
     mediaRecorder = null;
     let blob = new Blob(chunks, { 'type' : 'video/webm' });
     chunks = [];
@@ -81,5 +79,5 @@ async function startScreenDrop() {
       }
     }
   });
-  chrome.browserAction.setIcon({path: 'icons/32-recording.png'});
+  chrome.browserAction.setIcon({path: 'icons/on.png'});
 }
