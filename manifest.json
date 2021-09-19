@@ -10,10 +10,7 @@
 		"default_title": "ScreenDrop",
   	"default_icon": "icons/off.png"
 	},
-  "options_ui": {
-    "page": "welcome.html",
-    "browser_style": true
-  },
+  "options_page": "welcome.html",
   "icons": {
     "128": "icons/off.png"
   }
