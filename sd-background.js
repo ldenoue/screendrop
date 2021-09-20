@@ -3,7 +3,7 @@ chrome.runtime.onInstalled.addListener((details) => {
   if (details.reason.search(/install/g) === -1) {
       return
   }
-  chrome.storage.local.set({keep:false});
+  chrome.storage.local.set({keepLastOnly:true});
   chrome.tabs.create({
       url: chrome.extension.getURL("welcome.html"),
       active: true
@@ -19,12 +19,16 @@ let mediaRecorder = null;
 //let audioStream = null;
 let audioTrack = null;
 
+
 function downloadScreenDrop(url) {
-  chrome.downloads.download({
-    url: url,
-    filename: 'screendrop.webm'
-  }, (downloadId) => {
-    chrome.storage.local.set({downloadId});
+  chrome.storage.local.get('keepLastOnly',(res) => {
+    chrome.downloads.download({
+      url: url,
+      filename: 'screendrop.webm',
+      conflictAction: res.keepLastOnly?'overwrite':'uniquify',
+    }, (downloadId) => {
+      //chrome.storage.local.set({downloadId});
+    });
   });
 }
 
@@ -71,14 +75,15 @@ async function startScreenDrop() {
     fr.readAsDataURL(blob)
   };
   mediaRecorder.start(1000);
-  chrome.storage.local.get(['downloadId','keep'],(res) => {
+  /*chrome.storage.local.get(['downloadId','keep'],(res) => {
     if (res.downloadId) {
       if (!res.keep) {
-        chrome.downloads.removeFile(res.downloadId, () => {
-          chrome.downloads.erase({id: res.downloadId});
-        });
+        chrome.downloads.erase({id: res.downloadId});
+        //chrome.downloads.removeFile(res.downloadId, () => {
+        //  chrome.downloads.erase({id: res.downloadId});
+        //});
       }
     }
-  });
+  });*/
   chrome.browserAction.setIcon({path: 'icons/on.png'});
 }

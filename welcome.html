@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <style>
-body{font-size: 16px;font-family: arial, sans-serif;color:#444}
+body{font-size: 16px;font-family: arial, sans-serif;color:#444;margin-bottom:64px;}
 button{font-size: 16px;font-family: sans-serif;cursor:pointer;outline:none;padding:8px;background-color: deepskyblue;border:0;border-radius: 16px;}
 button:hover{opacity: 0.8;}
 .video{
@@ -30,8 +30,7 @@ h1{
 <body>
 <h1><img height='64px' src='icons/off.png'>ScreenDrop</h1>
 <p>In order to record your microphone with your screen <button id='mic'>enable microphone access</button> <span id='result'></span></p>
-<label><input id="keep" type="checkbox"> Keep all my recordings</label>
-<p style='font-size: 80%;'>by default ScreenDrop only keeps the last file so you don't have a huge list of files listed below your browser whenever you generate a new ScreenDrop</p>
+<label><input id="keep" type="checkbox"> Keep last file only</label>
 <h4>My recordings</h4>
 <div id='myfiles'>
 </div>

@@ -11,10 +11,10 @@ document.getElementById('mic').addEventListener('click',async (evt) => {
 });
 
 let keep = document.getElementById('keep');
-chrome.storage.local.get('keep',(res) => keep.checked = res.keep === true);
+chrome.storage.local.get('keepLastOnly',(res) => keep.checked = res.keepLastOnly === true);
 keep.addEventListener('change', (res) => {
-  let keep = res.target.checked;
-  chrome.storage.local.set({keep});
+  let keepLastOnly = res.target.checked;
+  chrome.storage.local.set({keepLastOnly});
 });
 
 function bytesToSize(bytes) {
@@ -24,16 +24,25 @@ function bytesToSize(bytes) {
   return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
 }
 
-function showFile(evt,fileId) {
+async function showFileInFolder(evt,fileId) {
   evt.stopPropagation()
   evt.preventDefault()
-  chrome.downloads.show(fileId)
+  chrome.downloads.show(fileId);
 }
+
+/*async function viewVideo(fileId) {
+  console.log(fileId);
+  chrome.downloads.open(fileId)
+}*/
 
 function deleteFile(evt,item,fileId) {
   evt.stopPropagation()
   evt.preventDefault()
-  chrome.downloads.removeFile(fileId);
+  try {
+    chrome.downloads.removeFile(fileId);
+  } catch (ealreadydeleted) {
+    alert(ealreadydeleted)
+  }
   item.remove();
 }
 
@@ -46,8 +55,8 @@ function createItem(file) {
   video.autoplay = false;
   video.playsInline = true;
   file.exists = true;
-  video.src = file.url;
   video.addEventListener('click',() => video.paused?video.play():video.pause());
+  video.src = file.url;
   item.appendChild(video);
   let details = document.createElement('div');
   details.innerHTML = `
@@ -59,18 +68,19 @@ function createItem(file) {
   item.appendChild(details);
   let links = details.querySelectorAll('a');
   if (links.length === 2) {
-    links[0].addEventListener('click',(evt) => showFile(evt,file.id));
+    links[0].addEventListener('click',(evt) => showFileInFolder(evt,file.id));
     links[1].addEventListener('click',(evt) => deleteFile(evt,item,file.id));
   }
   return item;
 }
-function showFiles(files) {
-  let myfiles = document.getElementById('myfiles');
-  files = files.filter(file => file.byExtensionName === 'ScreenDrop');
+
+async function showFiles(files) {
+  let myfiles_div = document.getElementById('myfiles');
+  files = files.filter(file => file.byExtensionName === 'ScreenDrop' /*&& file.exists*/);
   for (let file of files)
   {
     let item = createItem(file);
-    myfiles.appendChild(item)
+    myfiles_div.appendChild(item)
   }
 }
 
