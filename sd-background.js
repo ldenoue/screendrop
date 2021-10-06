@@ -22,9 +22,14 @@ let audioTrack = null;
 
 function downloadScreenDrop(url) {
   chrome.storage.local.get('keepLastOnly',(res) => {
+    let filename = '';
+    if (res.keepLastOnly)
+      filename = 'screendrop.webm';
+    else
+      filename = 'screendrop-' + Date.now() + '.webm';
     chrome.downloads.download({
       url: url,
-      filename: 'screendrop.webm',
+      filename: filename,
       conflictAction: res.keepLastOnly?'overwrite':'uniquify',
     }, (downloadId) => {
       //chrome.storage.local.set({downloadId});

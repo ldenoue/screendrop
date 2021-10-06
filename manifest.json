@@ -2,7 +2,7 @@
   "name": "ScreenDrop",
   "author": "Laurent Denoue",
   "manifest_version": 2,
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Quickly record a video of your screen or window with your voice, drag & drop anywhere",
   "background": {"scripts": ["sd-background.js"] },
   "permissions": ["downloads", "downloads.open", "storage"],
